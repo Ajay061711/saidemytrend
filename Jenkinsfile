@@ -18,7 +18,7 @@ pipeline {
                 scannerHome = tool 'sonar-scanner'
             }
             steps {
-                withSonarQubeEnv ('sonnar-token') {
+                withSonarQubeEnv ('saidemy-sonarqube-server') {
                     sh "${scannerHome}/bin/sonar-scanner"
                 }
             }
