@@ -1,4 +1,4 @@
-pipeline {
+pipeline { //pipe line starts
     agent any
 
     environment {
