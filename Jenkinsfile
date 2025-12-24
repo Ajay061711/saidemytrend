@@ -7,15 +7,9 @@ pipeline {
 
     stages {
 
-        stage('Test') {
-            steps {
-                sh 'mvn clean test'
-            }
-        }
-
         stage('Build') {
             steps {
-                sh 'mvn package -DskipTests'
+                sh 'mvn clean package'
             }
         }
 
@@ -26,6 +20,14 @@ pipeline {
             steps {
                 withSonarQubeEnv('saidemy-sonarqube-server') {
                     sh "${scannerHome}/bin/sonar-scanner"
+                }
+            }
+        }
+
+        stage('Quality Gate') {
+            steps {
+                timeout(time: 5, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: true
                 }
             }
         }
