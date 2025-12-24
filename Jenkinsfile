@@ -1,4 +1,4 @@
-pipeline { //pipe line starts
+pipeline {
     agent any
 
     environment {
@@ -7,9 +7,15 @@ pipeline { //pipe line starts
 
     stages {
 
+        stage('Test') {
+            steps {
+                sh 'mvn clean test'
+            }
+        }
+
         stage('Build') {
             steps {
-                sh 'mvn clean package'
+                sh 'mvn package -DskipTests'
             }
         }
 
@@ -18,13 +24,14 @@ pipeline { //pipe line starts
                 scannerHome = tool 'sonar-scanner'
             }
             steps {
-                withSonarQubeEnv ('saidemy-sonarqube-server') {
+                withSonarQubeEnv('saidemy-sonarqube-server') {
                     sh "${scannerHome}/bin/sonar-scanner"
                 }
             }
         }
     }
 }
+
 
 
 
